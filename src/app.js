@@ -1,23 +1,36 @@
 const express = require("express");
 const app = express();
-// app.use("/hello", (req, res) => {
-//   res.send("Hello World from /hello route");
-// });
-app.get("/user/:userId/:name",(req,res)=>{
-    // console.log(req.query)
-    console.log(req.params)
-    res.send({"firstName":"Ashis","lastName":'Pal'})
-})
-app.post("/user",(req,res)=>{
-    res.send("User created successfully")
-})
-app.delete("/user",(req,res)=>{
-    res.send("User deleted successfully")
-})
-// app.use("/", (req, res) => {
-//   res.send("Hello World from root route");
-// });
+const connectDB = require("./config/database");
+const User = require("./models/user");
+const cookieParser=require("cookie-parser");
+const jwt=require("jsonwebtoken");
+app.use(cookieParser());
+app.use(express.json());
+const { validateSignupData } = require("./utils/validate");
+const bcrypt = require("bcrypt");
+const {  userAuth } = require("./middleware/auth");
+const authRouter=require('./routes/auth')
+const profileRouter=require('./routes/profile');
+const requestRouter=require('./routes/request');
+const userRouter = require("./routes/user");
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
+app.use("/",authRouter);
+app.use("/",profileRouter);
+app.use("/",requestRouter)
+app.use("/",userRouter)
+
+
+
+
+
+
+connectDB()
+  .then(() => {
+    console.log("connected to database");
+    app.listen(3000, () => {
+      console.log("Server is running on port 3000");
+    });
+  })
+  .catch((err) => {
+    console.log("error connecting to database", err);
+  });
