@@ -55,14 +55,15 @@ const userSchema = new mongoose.Schema({
     type:String,
     default:"Give a brief description about yourself"
   },
-  photoUrl:{
-    type:String,
-    validate(value){
-      if(!validator.isURL){
-        throw new Error("Invalid Photo Url");
-      }
+ photoUrl:{
+  type:String,
+  default:"https://picsum.photos/300",
+  validate(value){
+    if(!validator.isURL(value)){
+      throw new Error("Invalid Photo Url");
     }
   }
+}
 },{
     timestamps:true
 });

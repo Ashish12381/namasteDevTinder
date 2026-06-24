@@ -1,11 +1,10 @@
 const express=require("express");
-const app = express();
+
 const authRouter=express.Router();
 const User=require("../models/user")
 const cookieParser=require("cookie-parser");
 const jwt=require("jsonwebtoken");
-app.use(cookieParser());
-app.use(express.json());
+
 const { validateSignupData } = require("../utils/validate");
 const bcrypt = require("bcrypt");
 const {  userAuth } = require("../middleware/auth");
@@ -45,7 +44,7 @@ authRouter.post("/login", async (req, res) => {
       //create jwt token and send to the user
       const token = await user.getJWT();
       res.cookie("token", token); 
-      res.send("Login successful");
+      res.send(user);
     } else {
       return res.status(400).send("Invalid credentials");
     }

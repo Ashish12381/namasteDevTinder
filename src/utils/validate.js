@@ -29,6 +29,9 @@ const validateProfileEdit = (data) => {
     "gender",
     "skills",
     "about",
+    "firstName",
+    "lastName",
+    "photoUrl"
   ];
   Object.keys(data).forEach((key) => {
     if (!allowed.includes(key)) {
