@@ -1,3 +1,8 @@
+require("dotenv").config();
+console.log("========== ENV ==========");
+console.log(process.env.AWS_ACCESS_KEY);
+console.log(process.env.AWS_SECRET_KEY);
+console.log("=========================");
 const express = require("express");
 const app = express();
 
@@ -35,7 +40,7 @@ app.use("/",userRouter)
 connectDB()
   .then(() => {
     console.log("connected to database");
-    app.listen(3000, () => {
+    app.listen(process.env.PORT, () => {
       console.log("Server is running on port 3000");
     });
   })
