@@ -10,6 +10,7 @@ const connectDB = require("./config/database");
 const User = require("./models/user");
 const cookieParser=require("cookie-parser");
 const cors=require("cors");
+require('./utils/cronjobs')
 app.use(cors({
   origin: "http://localhost:5173",
     credentials: true,
