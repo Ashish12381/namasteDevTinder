@@ -4,6 +4,7 @@ const razorpayInstance = require("../utils/razorpay");
 const { userAuth } = require("../middleware/auth");
 const Payment = require("../models/payment");
 const { membershipAmount } = require("../utils/constants");
+const User = require("../models/user");
 const {
   validateWebhookSignature,
 } = require("razorpay/dist/utils/razorpay-utils");
@@ -45,7 +46,7 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
   try {
     const webhookSignature = req.get("x-razorpay-signature");
    const isWebhookValid= validateWebhookSignature(
-      JSON.stringify(webhookBody),
+    JSON.stringify(req.body),
       webhookSignature,
       process.env.WEBHOOK_SECRET,
     );
@@ -59,7 +60,9 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
     }
     payment.status=paymentDetails.status;
     await payment.save();
-    const user = await User.findOne(payment.userId);
+   const user = await User.findOne({
+  _id: payment.userId,
+});
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
