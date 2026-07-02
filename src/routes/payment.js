@@ -25,7 +25,7 @@ paymentRouter.post("/payment/create", userAuth, async (req, res) => {
     console.log(order);
     const payment = new Payment({
       userId: req.user._id,
-      OrderId: order.id,
+      orderId: order.id,
       status: order.status,
       amount: order.amount,
       currency: order.currency,
