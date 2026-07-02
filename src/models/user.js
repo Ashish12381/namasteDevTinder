@@ -48,6 +48,15 @@ const userSchema = new mongoose.Schema({
     }
   }
 },
+isPremium: {
+  type: Boolean,
+  default: false,
+},
+membershipType: {
+  type: String,
+  enum: ["gold", "platinum"],
+  default: null,
+},
   skills:{
     type:[String],
   },
