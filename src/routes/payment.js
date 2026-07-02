@@ -59,7 +59,7 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
     }
     payment.status=paymentDetails.status;
     await payment.save();
-    const user = await User.findById(payment.userId);
+    const user = await User.findOne(payment.userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
